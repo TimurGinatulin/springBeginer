@@ -3,11 +3,11 @@ package home.mvc.MVC.repositories;
 import home.mvc.MVC.models.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepositoryImp {
     List<Product> getAllProductList();
-
-    Product getProductById(int id);
+    Optional<Product> getProductById(int id);
 
     Product getProductByTitle(String title);
 

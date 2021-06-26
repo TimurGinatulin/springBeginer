@@ -1,6 +1,5 @@
 package home.mvc.MVC.controller;
 
-import home.mvc.MVC.models.Product;
 import home.mvc.MVC.models.SubProd;
 import home.mvc.MVC.services.ManagerProductService;
 import org.springframework.stereotype.Controller;
