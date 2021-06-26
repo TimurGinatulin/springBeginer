@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Builder
-@Component
 @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Product {
     private int id;
