@@ -9,6 +9,7 @@ import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component()
 @Scope(scopeName = "singleton")
@@ -43,13 +44,8 @@ class ProductInMemoryRepository implements ProductRepositoryImp {
         return Collections.unmodifiableList(list);
     }
 
-    public Product getProductById(int id) {
-        for (Product product : list) {
-            if (product.getId() == id) {
-                return product;
-            }
-        }
-        return null;
+    public Optional<Product> getProductById(int id) {
+        return list.stream().filter(p -> p.getId() == id).findFirst();
     }
 
     public Product getProductByTitle(String title) {
@@ -71,10 +67,10 @@ class ProductInMemoryRepository implements ProductRepositoryImp {
     }
 
     public int getCountProduct(int id) {
-        Product product = getProductById(id);
+        Optional<Product> product = getProductById(id);
         int count = 0;
-        if (product != null) {
-            count = product.getCount();
+        if (product.get() != null) {
+            count = product.get().getCount();
         }
         return count;
     }
@@ -183,9 +179,9 @@ class ProductInMemoryRepository implements ProductRepositoryImp {
     }
 
     public boolean decrementingCountProduct(int id, int count) {
-        Product product = getProductById(id);
-        if (product != null) {
-            if (count < product.getCount()) {
+        Optional<Product> product = getProductById(id);
+        if (product.get() != null) {
+            if (count < product.get().getCount()) {
                 updateCount(id, (getCountProduct(id) - count));
                 return true;
             }
@@ -205,9 +201,9 @@ class ProductInMemoryRepository implements ProductRepositoryImp {
     }
 
     public boolean incrementingCountProduct(int id, int count) {
-        Product product = getProductById(id);
-        if (product != null) {
-            if (count < product.getCount()) {
+        Optional<Product> product = getProductById(id);
+        if (product.get() != null) {
+            if (count < product.get().getCount()) {
                 updateCount(id, (getCountProduct(id) + count));
                 return true;
             }

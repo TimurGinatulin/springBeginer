@@ -1,10 +1,12 @@
 package home.mvc.MVC.services;
 
+import home.mvc.MVC.exceptions.ResourcesNotFoundException;
 import home.mvc.MVC.models.Product;
 import home.mvc.MVC.repositories.ProductRepositoryImp;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 class ManagerRepositoryConnector {
     @Autowired
@@ -15,7 +17,7 @@ class ManagerRepositoryConnector {
     }
 
     protected Product getProductById(int id) {
-        return repositoryImp.getProductById(id);
+        return repositoryImp.getProductById(id).orElseThrow(()->new ResourcesNotFoundException("Product doesn't found"));
     }
 
     protected Product getProductByTitle(String title) {

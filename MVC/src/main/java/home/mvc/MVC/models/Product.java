@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Product {
-
     private int id;
     private String title;
     private int cost;
