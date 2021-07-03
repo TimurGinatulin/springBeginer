@@ -13,6 +13,7 @@
         <property name="show_sql">true</property>
         <property name="current_session_context_class">thread</property>
 
-        <mapping class="home.ginatulin.entity.ProductEntity"/>
+        <mapping class="home.ginatulin.entity.Product"/>
+        <mapping class="home.ginatulin.entity.Buyer"/>
     </session-factory>
 </hibernate-configuration>
