@@ -1,10 +1,8 @@
-angular.module('app', []).controller('restIndexController', function ($scope, $http) {
+angular.module('app', ['ui.grid','ui.grid.pagination']).controller('restIndexController', function ($scope, $http) {
     const contextPath = 'http://localhost:2021/market/api';
-    var invocation = new XMLHttpRequest();
-    var url = 'http://localhost:2021/market';
-    var body = '<?xml version="1.0"?><person><name>Arun</name></person>';
 
-    $scope.fillTable = function () {
+    $scope.fillTable = function (pageNumber,size) {
+    pageNumber = pageNumber > 0?pageNumber - 1:0;
         $http({
             url: contextPath,
             method: 'GET',
@@ -19,7 +17,6 @@ angular.module('app', []).controller('restIndexController', function ($scope, $h
         });
     };
     $scope.deleteProduct = function(id){
-    callOtherDomain();
     $http({
        url: contextPath + "/" +id,
        method: 'DELETE',
@@ -37,15 +34,48 @@ angular.module('app', []).controller('restIndexController', function ($scope, $h
                 $scope.fillTable();
             });
     };
-function callOtherDomain(){
-  if(invocation)
-    {
-      invocation.open('POST', url, true);
-      invocation.setRequestHeader('X-PINGOTHER', 'pingpong');
-      invocation.setRequestHeader('Content-Type', 'application/xml');
-      invocation.send(body);
-    }
-}
-
     $scope.fillTable();
+
+     function ($scope, StudentService) {
+            var paginationOptions = {
+                pageNumber: 1,
+                pageSize: 5,
+            sort: null
+            };
+
+        StudentService.getStudents(
+          paginationOptions.pageNumber,
+          paginationOptions.pageSize).success(function(data){
+            $scope.gridOptions.data = data.content;
+            $scope.gridOptions.totalItems = data.totalElements;
+          });
+
+        $scope.gridOptions = {
+            paginationPageSizes: [5, 10, 20],
+            paginationPageSize: paginationOptions.pageSize,
+            enableColumnMenus:false,
+        useExternalPagination: true,
+            columnDefs:
+               { name: 'name' },
+               { name: 'cost' }
+            ],
+            onRegisterApi: function(gridApi) {
+               $scope.gridApi = gridApi;
+               gridApi.pagination.on.paginationChanged(
+                 $scope,
+                 function (newPage, pageSize) {
+                   paginationOptions.pageNumber = newPage;
+                   paginationOptions.pageSize = pageSize;
+                   StudentService.getStudents(newPage,pageSize)
+                     .success(function(data){
+                       $scope.gridOptions.data = data.content;
+                       $scope.gridOptions.totalItems = data.totalElements;
+                     });
+                });
+            }
+        };
+    }]);
+
+
+
 });
