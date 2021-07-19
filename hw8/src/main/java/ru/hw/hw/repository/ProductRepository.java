@@ -10,7 +10,7 @@ import ru.hw.hw.models.entitys.ProductEntity;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer>, JpaSpecificationExecutor<ProductEntity> {
 
-    Page<ProductEntity> findByCostBetween(int min, int max, Pageable pageable);
+    Page<ProductEntity> findByPriceBetween(int min, int max, Pageable pageable);
 
     Page<ProductEntity> findByNameLike(String name, Pageable pageable);
 
