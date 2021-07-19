@@ -7,6 +7,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import ru.hw.hw.exception.NotFoundException;
 import ru.hw.hw.models.dtos.ProductDto;
+import ru.hw.hw.repository.specifications.ProductSpecifications;
 import ru.hw.hw.service.ProductService;
 
 
@@ -19,19 +20,10 @@ public class RestIndexController {
 
     @GetMapping
     public Page<ProductDto> findAllProducts(
-            @RequestParam(name = "min_price", defaultValue = "0") Integer minPrice,
-            @RequestParam(name = "max_price", required = false) Integer maxPrice,
-            @RequestParam(name = "title", required = false) String name,
             @RequestParam MultiValueMap<String, String> params,
             @RequestParam(name = "p", defaultValue = "1") Integer page
     ) {
-        if (name != null)
-            return productService
-                    .findByNameLike(page, 2, name);
-        if (maxPrice == null)
-            maxPrice = Integer.MAX_VALUE;
-        return productService
-                .findByCostBetween(page, 2, minPrice, maxPrice);
+        return productService.findAll(ProductSpecifications.build(params), page, 2);
     }
 
     @GetMapping("/{id}")

@@ -51,7 +51,7 @@ public class ProductService {
     public Page<ProductDto> findByCostBetween(
             Integer page, int i, Integer minPrice, Integer maxPrice) {
         return repository
-                .findByCostBetween(minPrice, maxPrice, PageRequest.of(page, i))
+                .findByPriceBetween(minPrice, maxPrice, PageRequest.of(page, i))
                 .map(ProductDto::new);
     }
 
@@ -85,7 +85,7 @@ public class ProductService {
         if (name != null)
             entity.setName(name);
         if (cost != null)
-            entity.setCost(cost);
+            entity.setPrice(cost);
         return mapper.map(repository.save(entity), ProductDto.class);
     }
 }

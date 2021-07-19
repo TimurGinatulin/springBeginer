@@ -20,7 +20,7 @@ public class ProductEntity {
     @Column(name = "name")
     private String name;
     @Column(name = "cost")
-    private int cost;
+    private int price;
     @OneToOne
     @JoinTable(name = "product_category",
             joinColumns = {@JoinColumn(name = "id_product", referencedColumnName = "id")},
@@ -35,6 +35,6 @@ public class ProductEntity {
 
     public ProductEntity(String title, int price) {
         this.name = title;
-        this.cost = price;
+        this.price = price;
     }
 }

@@ -15,7 +15,7 @@ public class ProductDto {
     public ProductDto(ProductEntity p) {
         this.id = p.getId();
         this.title = p.getName();
-        this.price = p.getCost();
+        this.price = p.getPrice();
         this.category = p.getCategory().getName();
     }
 }
