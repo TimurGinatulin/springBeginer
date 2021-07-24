@@ -3,12 +3,17 @@ package ru.hw.hw.controller.rest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+//import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import ru.hw.hw.exception.NotFoundException;
 import ru.hw.hw.models.dtos.ProductDto;
+import ru.hw.hw.models.entitys.UserEntity;
 import ru.hw.hw.repository.specifications.ProductSpecifications;
+import ru.hw.hw.service.AppUserDetailsService;
 import ru.hw.hw.service.ProductService;
+
+import java.util.List;
 
 
 @RestController
@@ -17,6 +22,8 @@ import ru.hw.hw.service.ProductService;
 public class RestIndexController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private AppUserDetailsService userDetailsService;
 
     @GetMapping
     public Page<ProductDto> findAllProducts(
