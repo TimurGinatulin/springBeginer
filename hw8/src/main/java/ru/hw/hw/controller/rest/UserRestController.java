@@ -1,35 +1,34 @@
 package ru.hw.hw.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.hw.hw.models.dtos.ResponseDto;
 import ru.hw.hw.models.entitys.UserEntity;
-import ru.hw.hw.service.AppUserDetailsService;
+import ru.hw.hw.service.UserService;
 
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/app/score")
 public class UserRestController {
     @Autowired
-    private AppUserDetailsService service;
+    private UserService service;
 
     @GetMapping("/inc")
-    public UserEntity incScore(Principal principal) {
-        return service.incScore(principal.getName());
+    public UserEntity incScore(@RequestHeader("Authorization") String authorization) {
+        UserEntity userByToken = service.findUserByToken(authorization.substring(7));
+        return service.incScore(userByToken.getUsername());
     }
 
     @GetMapping("/dec")
-    public UserEntity decScore(Principal principal) {
-        return service.decScore(principal.getName());
+    public UserEntity decScore(@RequestHeader("Authorization") String authorization) {
+        UserEntity userByToken = service.findUserByToken(authorization.substring(7));
+        return service.decScore(userByToken.getUsername());
     }
 
     @GetMapping("/get/current")
-    public ResponseDto getCurrentScore(Principal principal) {
-        return service.getScoreByUsername(principal.getName());
+    public ResponseDto getCurrentScore(@RequestHeader("Authorization") String authorization) {
+        UserEntity userByToken = service.findUserByToken(authorization.substring(7));
+        return service.getScoreByUsername(userByToken.getUsername());
     }
 
     @GetMapping("/get/{id}")

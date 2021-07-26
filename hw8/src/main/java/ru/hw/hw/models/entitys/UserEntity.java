@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -23,7 +21,7 @@ public class UserEntity {
     private String password;
     @Column(name = "score")
     private int score;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "id_user"),

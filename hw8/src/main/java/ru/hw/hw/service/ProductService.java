@@ -20,10 +20,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-    //Добавляю аннотацию так как у меня спринг не инжектит при сборке репозиторий
     @Autowired
     private final ProductRepository repository;
-    //@Autowired
     private final ModelMapper mapper = new ModelMapper();
 
     public Page<ProductDto> findAll(
